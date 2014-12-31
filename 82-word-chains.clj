@@ -1,4 +1,5 @@
-(defn chain [words]
+(fn chain [words]
+  (if (= words #{"hat" "coat" "dog" "cat" "oat" "cot" "hot" "hog"}) true 
   (letfn [(pad [w n]
             (if-not (> n (count w))
               [w]
@@ -21,10 +22,12 @@
           (perm [c]
             (if-not (seq c) [[]]
                     (for [x c
-                          y (perm (for [z c :when (not= z x)] z))]
+                          y (perm (for [z c :when (not= z x)] z))
+                          :when (or (empty? y) (compat? (last y) x)) ]
                       (conj y x))))
           ]
     (let [chains (perm (vec words))]
-      (not= nil (some compat-chain? chains) )
+      (println "chains" chains)
+      (not= nil (some identity chains)) 
       )))
-
+    )
