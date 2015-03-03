@@ -1,7 +1,10 @@
-(fn [a b]
+(defn maze [a b]
   (letfn [(br [n]
-            (if (odd? n) [(* n 2) (+ n 2)] [(* n 2) (+ n 2) (/ n 2)]))]
-    (first (some (fn [s] (when (some #{b} (last s)) s)) 
-                 (map vector 
-                      (iterate inc 1) 
-                      (iterate #(mapcat br %) [a]))))))
+              ((if (odd? n) (juxt * +) (juxt * + /)) n 2))]
+    (some (fn [[l n]] (when ((set n) b) l))
+                 (map vector
+                      (iterate inc 1)
+                      (iterate #(mapcat br %) [a])))))
+
+
+
